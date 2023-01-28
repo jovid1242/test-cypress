@@ -8,6 +8,13 @@ class testController {
     try {
       let file = req.files.file;
       const pathFile = path.join(__dirname, "/../uploads/files/file.zip");
+      if (file.mimetype.split("/").splice(1, 1).join("") !== "zip") {
+        res.json({
+          message:
+            "Формат файла должен быть .zip и папка внутри его должна називаться docs !!!",
+        });
+        return;
+      }
       if (DownLoadFile(file, pathFile)) {
         cypress
           .run({
