@@ -1,17 +1,24 @@
-const path = require("path");
-const fs = require("fs").promises;
-const axios = require("axios");
-const AdmZip = require("adm-zip");
+const path = require("path"); 
+const unzipper = require("unzipper");
 
-async function DownLoadFile(file) {
-  const pathZip = path.resolve(__dirname, "files");
-  const pathFile = path.resolve(pathZip, "file.zip");
-  await fs.writeFile(pathFile, file)
-  console.log('start...');
-  const zipFile = new AdmZip(file);
-  zipFile.extractAllTo(pathZip, true);
-  
-  console.log('end...');
+async function DownLoadFile(file, pathFile) {
+  try {
+    file.mv(pathFile),
+      (err) => {
+        if (err) {
+          res.json({ message: "Ошибка при загрузка файла" });
+        }
+      };
+    setTimeout(() => {
+      unzipper.Open.file(pathFile).then((d) => {
+        d.extract({ path: path.join(__dirname + "/../uploads/files") });
+      });
+
+      return true;
+    });
+  } catch {
+    return false;
+  }
 }
 
 module.exports = DownLoadFile;
