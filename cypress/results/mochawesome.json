@@ -1,0 +1,126 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2023-01-30T11:38:08.265Z",
+    "end": "2023-01-30T11:38:08.625Z",
+    "duration": 360,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "5dee0fc7-707f-4f32-8052-12f471a3ec3b",
+      "title": "",
+      "fullFile": "cypress\\e2e\\test_File.cy.js",
+      "file": "cypress\\e2e\\test_File.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "fb15948c-42b8-4e99-8fb3-cc6f35c9db79",
+          "title": "Test",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Проверка файла 1",
+              "fullTitle": "Test Проверка файла 1",
+              "timedOut": null,
+              "duration": 221,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('./uploads/files/html/index.html');\ncy.readFile('./uploads/files/html/index.html');\n// cy.document().its('contentType').should('eq', 'text/html')",
+              "err": {},
+              "uuid": "ab129a31-6f35-440e-9dd1-24ce714cc307",
+              "parentUUID": "fb15948c-42b8-4e99-8fb3-cc6f35c9db79",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Проверка файла 2",
+              "fullTitle": "Test Проверка файла 2",
+              "timedOut": null,
+              "duration": 106,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit('./uploads/files/html/index.html');\ncy.document().its('contentType').should('eq', 'text/html');",
+              "err": {},
+              "uuid": "e52ec192-c90b-4d94-8811-28a89375aa01",
+              "parentUUID": "fb15948c-42b8-4e99-8fb3-cc6f35c9db79",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "ab129a31-6f35-440e-9dd1-24ce714cc307",
+            "e52ec192-c90b-4d94-8811-28a89375aa01"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 327,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/results",
+        "charts": true,
+        "overwrite": true,
+        "html": false,
+        "json": true,
+        "toConsole": true
+      },
+      "version": "6.2.0"
+    }
+  }
+}

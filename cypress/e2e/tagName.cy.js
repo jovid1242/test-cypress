@@ -8,7 +8,7 @@ describe("Проверка тег а", () => {
   // });
 
   it("Проверка url тег а", () => {
-    cy.visit("./uploads/files/docs/index.html");
+    cy.visit("./uploads/files/html/index.html");
     cy.get("a").should("have.text", "Google");
   });
 });

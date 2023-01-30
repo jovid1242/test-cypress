@@ -1,12 +1,22 @@
 const cypress = require("cypress");
 const fs = require("fs").promises;
 const path = require("path");
+const deleteFolder = require("../utils/deleteFolder");
 const DownLoadFile = require("../utils/downloadZip");
 
 class testController {
   async runTest(req, res, next) {
     try {
       let file = req.files.file;
+      fs.mkdir(path.join(__dirname, "/../uploads/files"), (err) => {
+        if (err) {
+          res.json({
+            message: "there was an error:" + err,
+          });
+          return;
+        }
+      });
+
       const pathFile = path.join(__dirname, "/../uploads/files/file.zip");
       if (file.mimetype.split("/").splice(1, 1).join("") !== "zip") {
         res.json({
@@ -18,11 +28,11 @@ class testController {
       if (DownLoadFile(file, pathFile)) {
         cypress
           .run({
-            spec: "./cypress/e2e/tagName.cy.js",
+            spec: "./cypress/e2e/test_File.cy.js",
           })
           .then((results) => {
             try {
-              fs.unlink(pathFile);
+              deleteFolder(path.join(__dirname + "/../uploads/files"));
               res.json({
                 results,
               });
