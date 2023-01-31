@@ -11,19 +11,19 @@ class testController {
       fs.mkdir(path.join(__dirname, "/../uploads/files"), (err) => {
         if (err) {
           res.json({
-            message: "there was an error:" + err,
+            message: "Что-то пошло не так" + err,
           });
           return;
         }
       });
 
       const pathFile = path.join(__dirname, "/../uploads/files/file.zip");
-      if (file.mimetype.split("/").splice(1, 1).join("") !== "zip") {
+      if (file.name.split(".")[1] !== "zip") {
         res.json({
           message:
-            "Формат файла должен быть .zip и папка внутри его должна називаться docs !!!",
+            "Формат файла должен быть .zip и папка внутри его должна називаться docs !!!", 
         });
-        return;
+        deleteFolder(path.join(__dirname + "/../uploads/files"));
       }
       if (DownLoadFile(file, pathFile)) {
         cypress
@@ -34,12 +34,18 @@ class testController {
             try {
               deleteFolder(path.join(__dirname + "/../uploads/files"));
               res.json({
-                results,
+                complete: results.totalFailed === 0 ? true : false,
+                startedTestsAt: results.startedTestsAt,
+                endedTestsAt: results.endedTestsAt,
+                totalFailed: results.totalFailed,
+                totalTests: results.totalTests,
+                totalPassed: results.totalPassed,
+                tests: results.runs[0].tests,
               });
             } catch (error) {
               fs.unlink(pathFile);
               res.json({
-                message: "there was an error:",
+                message: "Что-то пошло не так",
               });
             }
           });
@@ -49,7 +55,7 @@ class testController {
         });
       }
     } catch (err) {
-      res.json({ message: err });
+      res.json({ message: "Что-то пошло не так: " + err });
     }
   }
 }

@@ -1,4 +1,4 @@
-describe("Проверка тег а", () => {
+describe("Проверка тег h1", () => {
   // it("Проверка текст тег а", () => {
   //   cy.request("https://api.ofolio.ru/api/users").as("response");
   //   cy.get("@response").then((response) => {
@@ -7,8 +7,8 @@ describe("Проверка тег а", () => {
   //   });
   // });
 
-  it("Проверка url тег а", () => {
+  it("Проверяем текст h1", () => {
     cy.visit("./uploads/files/html/index.html");
-    cy.get("a").should("have.text", "Google");
+    cy.get("h1").should("have.text", "Hello World");
   });
 });
