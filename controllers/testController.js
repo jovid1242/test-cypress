@@ -1,54 +1,41 @@
-const cypress = require("cypress");
-const fs = require("fs").promises;
+const fs = require("fs");
 const path = require("path");
-const deleteFolder = require("../utils/deleteFolder");
+const uuid = require("uuid");
 const DownLoadFile = require("../utils/downloadZip");
 
 class testController {
   async runTest(req, res, next) {
     try {
       let file = req.files.file;
-      fs.mkdir(path.join(__dirname, "/../uploads/files"), (err) => {
-        if (err) {
-          res.json({
-            message: "Что-то пошло не так" + err,
-          });
-          return;
-        }
-      });
+      const file_id = uuid.v4();
 
-      const pathFile = path.join(__dirname, "/../uploads/files/file.zip");
+      const pathFile = path.join(__dirname, `/../uploads/files/${file_id}.zip`);
       if (file.name.split(".")[1] !== "zip") {
         res.json({
           message:
-            "Формат файла должен быть .zip и папка внутри его должна називаться docs !!!", 
+            "Формат файла должен быть .zip и папка внутри его должна називаться docs !!!",
         });
-        deleteFolder(path.join(__dirname + "/../uploads/files"));
       }
       if (DownLoadFile(file, pathFile)) {
-        cypress
-          .run({
-            spec: "./cypress/e2e/test_File.cy.js",
-          })
-          .then((results) => {
-            try {
-              deleteFolder(path.join(__dirname + "/../uploads/files"));
-              res.json({
-                complete: results.totalFailed === 0 ? true : false,
-                startedTestsAt: results.startedTestsAt,
-                endedTestsAt: results.endedTestsAt,
-                totalFailed: results.totalFailed,
-                totalTests: results.totalTests,
-                totalPassed: results.totalPassed,
-                tests: results.runs[0].tests,
-              });
-            } catch (error) {
-              fs.unlink(pathFile);
-              res.json({
-                message: "Что-то пошло не так",
-              });
-            }
-          });
+        const dbData = JSON.parse(
+          fs.readFileSync(
+            path.join(__dirname + "/../db/data.json"),
+            (err, data) => data
+          )
+        );
+
+        fs.writeFileSync(
+          path.join(__dirname + "/../db/data.json"),
+          JSON.stringify([
+            ...dbData,
+            {
+              id: file_id,
+              name: `${file_id}.zip`,
+              status: false,
+            },
+          ])
+        );
+        res.json({ id: file_id });
       } else {
         res.json({
           message: "Что-то пошло не так",
@@ -57,6 +44,18 @@ class testController {
     } catch (err) {
       res.json({ message: "Что-то пошло не так: " + err });
     }
+  }
+  async getTest(req, res, next) {
+    const dbData = JSON.parse(
+      fs.readFileSync(
+        path.join(__dirname + "/../db/tests.json"),
+        (err, data) => data
+      )
+    );
+    const result = dbData.filter(
+      (item) => item.user_id === req.body.user_id
+    );
+    res.json({ user_id: req.body.user_id, result });
   }
 }
 
